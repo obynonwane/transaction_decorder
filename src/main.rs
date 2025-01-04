@@ -1,10 +1,13 @@
 #[allow(unused_variables)]
 fn read_version(transaction_hex: &str) -> u32 {
     // decode to raw bytes
-    let transaction_bytes = hex::decode(transaction_hex);
+    let transaction_bytes = hex::decode(transaction_hex).unwrap();
     //  get the first 4 byte
-    let version_byte = transaction_bytes[0..4];
-    print!("version bytes: {:?}", version_byte);
+    let version_byte = &transaction_bytes[0..4];
+
+    // converting bytes to integer - taking note that bitcoing is little endian on bytes
+    // let version = u32::from_le_bytes(version_byte);
+    println!("version bytes: {:?}", version_byte);
 
     1
 }
