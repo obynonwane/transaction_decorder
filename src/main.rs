@@ -1,15 +1,17 @@
+use std::io::Read;
+
 #[allow(unused_variables)]
 fn read_version(transaction_hex: &str) -> u32 {
-    // decode to raw bytes
+    // decode to raw bytes - this is a vector
     let transaction_bytes = hex::decode(transaction_hex).unwrap();
-    //  get the first 4 byte
-    let version_byte = &transaction_bytes[0..4];
-
+    // conver the decoded bytes to slice
+    let mut byte_slice = transaction_bytes.as_slice();
+    // declare buffer of size 4
+    let mut buffer = [0; 4];
+    // read into the buffer
+    byte_slice.read(&mut buffer).unwrap();
     // converting bytes to integer - taking note that bitcoing is little endian on bytes
-    // let version = u32::from_le_bytes(version_byte);
-    println!("version bytes: {:?}", version_byte);
-
-    1
+    u32::from_le_bytes(buffer)
 }
 #[allow(unused_variables)]
 fn main() {
